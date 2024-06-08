@@ -1,5 +1,8 @@
-import { Express } from "express";
+import { Express, Router } from "express";
 
-const userRouter = (express: Express, redisClient: any) => {};
+const userRouter = (redisClient: any) => {
+  const router = Router();
+  return router;
+};
 
 export default userRouter;

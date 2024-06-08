@@ -4,6 +4,7 @@ import expressConfig from "./server";
 import config from "./config/config";
 import errorHandlingMiddleware from "./middlewares/errorHandling";
 import connection from "./db/redis/connection";
+import routes from "./routes";
 
 const app = express();
 
@@ -16,8 +17,6 @@ app.listen(config.port, () => {
 //  connect to db
 const redisClient = connection(config).createRedisClient();
 
-app.get("/", (req, res) => {
-  res.send("Hello, TypeScript with Express!");
-});
+routes(app, redisClient);
 
 app.use(errorHandlingMiddleware);
