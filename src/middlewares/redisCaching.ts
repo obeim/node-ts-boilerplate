@@ -1,17 +1,18 @@
 import { NextFunction, Request, Response } from "express";
-import { ErrorReply } from "redis";
+import { RedisClientType } from "..";
 
-export default function redisCachingMiddleware(redisClient: any, key: string) {
-  return function (req: Request, res: Response, next: NextFunction) {
+export default function redisCachingMiddleware(
+  redisClient: RedisClientType,
+  key: string
+) {
+  return async function (req: Request, res: Response, next: NextFunction) {
     const params = req.params.id || "";
-    redisClient.get(`${key}_${params}`, (err: ErrorReply, data: string) => {
-      if (err) {
-        console.log(err);
-      }
-      if (data) {
-        return res.json(JSON.parse(data));
-      }
+    const data = await redisClient.get(`${key}_${params}`);
+    if (data) {
+      console.log(data);
+      return res.json(JSON.parse(data));
+    } else {
       return next();
-    });
+    }
   };
 }

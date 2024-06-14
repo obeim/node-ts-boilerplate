@@ -1,18 +1,19 @@
 import { Config } from "./config";
 import { createClient } from "redis";
 export default function connection(config: Config) {
-  const createRedisClient = function createRedisClient() {
-    return createClient({ url: config.redis.uri });
-  };
-  createRedisClient().on("connect", () => {
+  const redisClient = createClient({ url: config.redis.uri });
+
+  redisClient.connect();
+
+  redisClient.on("connect", () => {
     console.log("Connected to Redis!");
   });
 
-  createRedisClient().on("error", (err) => {
+  redisClient.on("error", (err) => {
     console.log(`Error  ${err}`);
   });
 
   return {
-    createRedisClient,
+    redisClient,
   };
 }

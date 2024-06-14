@@ -14,7 +14,7 @@ expressConfig(app);
 
 AppDataSource.initialize()
   .then(async () => {
-    console.log("database connected");
+    console.log("database");
   })
   .catch((error) => console.log(error));
 
@@ -23,8 +23,10 @@ app.listen(config.port, () => {
 });
 
 //  connect to db
-const redisClient = connection(config).createRedisClient();
+const redisClient = connection(config).redisClient;
 
+export type RedisClientType = typeof redisClient;
+console.log(redisClient.get("user_9"));
 routes(app, redisClient);
 
 app.use(errorHandlingMiddleware);

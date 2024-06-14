@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
-import { RedisClientType } from "../types/redis";
 import userService from "../services/user";
+import { RedisClientType } from "..";
 
 const userController = (redisClient: RedisClientType) => {
   const service = userService();
 
   const getUserById = async (req: Request, res: Response) => {
     const user = await service.getUserById(req.params.id);
+    await redisClient.set("posts", JSON.stringify(user), { EX: 30 });
+
     res.json(user);
   };
 
