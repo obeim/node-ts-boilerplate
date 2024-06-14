@@ -1,4 +1,4 @@
-import { Config } from "../../config/config";
+import { Config } from "./config";
 import { createClient } from "redis";
 export default function connection(config: Config) {
   const createRedisClient = function createRedisClient() {
