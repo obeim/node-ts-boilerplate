@@ -1,10 +1,18 @@
 import { Response, Request } from "express";
-import { RedisClientType } from "../types/redis";
-import { AppDataSource } from "../db/data-source";
-import { User } from "../db/entity/User";
+import authService from "../services/auth";
+import { RedisClientType } from "..";
 
 const authController = (redisClient: RedisClientType) => {
-  const login = (req: Request, res: Response) => {};
+  const login = async (req: Request, res: Response, next: any) => {
+    const service = authService();
+
+    try {
+      const data = await service.login(req.body.email, req.body.password);
+      res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
   return { login };
 };
 

@@ -1,7 +1,7 @@
 import { Express } from "express";
 import userRouter from "./user";
 import authRouter from "./auth";
-import { RedisClientType } from "../types/redis";
+import { RedisClientType } from "..";
 export default async function routes(
   app: Express,
   redisClient: RedisClientType

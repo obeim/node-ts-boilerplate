@@ -9,7 +9,6 @@ export default function redisCachingMiddleware(
     const params = req.params.id || "";
     const data = await redisClient.get(`${key}_${params}`);
     if (data) {
-      console.log(data);
       return res.json(JSON.parse(data));
     } else {
       return next();

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authController from "../controllers/auth";
-import { RedisClientType } from "../types/redis";
+import { RedisClientType } from "..";
 
 const authRouter = (redisClient: RedisClientType) => {
   const controller = authController(redisClient);
