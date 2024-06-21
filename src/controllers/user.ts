@@ -5,9 +5,17 @@ import { RedisClientType } from "..";
 const userController = (redisClient: RedisClientType) => {
   const service = userService();
 
+  const getUsers = async (req: Request, res: Response) => {
+    const users = await service.getUsers();
+    await redisClient.set(`users_`, JSON.stringify(users), { EX: 30 });
+    res.json(users);
+  };
+
   const getUserById = async (req: Request, res: Response) => {
     const user = await service.getUserById(req.params.id);
-    await redisClient.set("posts", JSON.stringify(user), { EX: 30 });
+    await redisClient.set(`user_${req.params.id}`, JSON.stringify(user), {
+      EX: 30,
+    });
 
     res.json(user);
   };
@@ -17,7 +25,7 @@ const userController = (redisClient: RedisClientType) => {
     res.json(user);
   };
 
-  return { getUserById, createUser };
+  return { getUserById, createUser, getUsers };
 };
 
 export default userController;

@@ -9,6 +9,11 @@ const userRouter = (redisClient: RedisClientType) => {
 
   /// routes
   router.get(
+    "/",
+    redisCachingMiddleware(redisClient, "users"),
+    controller.getUsers
+  );
+  router.get(
     "/:id",
     [redisCachingMiddleware(redisClient, "user")],
     controller.getUserById

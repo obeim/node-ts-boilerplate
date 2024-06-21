@@ -7,14 +7,18 @@ export default function userService() {
 
   const createUser = async (user: DeepPartial<User>[]) => {
     const initUser = userRepository.create(user);
-    const createdUser = await userRepository.save(initUser);
-    return createdUser;
+    return await userRepository.save(initUser);
   };
 
   const getUserById = async (id: string) => {
-    const user = await userRepository.findOne({ where: { id: parseInt(id) } });
-    return user;
+    return await userRepository.findOne({ where: { id: parseInt(id) } });
   };
 
-  return { createUser, getUserById };
+  const getUsers = async () => {
+    return await userRepository.find({
+      select: ["username", "email", "firstName", "lastName", "email", "id"],
+    });
+  };
+
+  return { createUser, getUserById, getUsers };
 }
