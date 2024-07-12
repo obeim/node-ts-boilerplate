@@ -1,13 +1,25 @@
 import { AppDataSource } from "../db/data-source";
 import { User } from "../db/entity/User";
 import { compare, generateToken } from "../helpers";
-import { ErrorWithStatus } from "../types/error";
-
+import { ErrorWithStatus } from "../types/express";
+import { omit } from "lodash";
 export default function authService() {
   const userRepository = AppDataSource.getRepository(User);
 
   const login = async (email: string, password: string) => {
-    const user = await userRepository.findOne({ where: { email: email } });
+    const user = await userRepository.findOne({
+      where: { email: email },
+      select: [
+        "username",
+        "email",
+        "age",
+        "firstName",
+        "lastName",
+        "id",
+        "password",
+      ],
+    });
+    console.log(user);
 
     const error = new Error("Invalid email or password") as ErrorWithStatus;
 
@@ -26,7 +38,7 @@ export default function authService() {
 
     const token = generateToken({ id: user.id });
 
-    return { user, token };
+    return { user: omit(user, ["password"]), token };
   };
 
   return { login };

@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeInsert,
+  Unique,
+} from "typeorm";
 import { encryptPassword } from "../../helpers";
 @Entity()
+@Unique(["email", "username"])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;

@@ -2,6 +2,7 @@ import { Router } from "express";
 import userController from "../controllers/user";
 import redisCachingMiddleware from "../middlewares/redisCaching";
 import { RedisClientType } from "..";
+import authMiddleware from "../middlewares/authMiddleware";
 
 const userRouter = (redisClient: RedisClientType) => {
   const router = Router();
@@ -10,15 +11,22 @@ const userRouter = (redisClient: RedisClientType) => {
   /// routes
   router.get(
     "/",
-    redisCachingMiddleware(redisClient, "users"),
+    [authMiddleware, redisCachingMiddleware(redisClient, "users")],
     controller.getUsers
   );
   router.get(
     "/:id",
-    [redisCachingMiddleware(redisClient, "user")],
+    [authMiddleware, redisCachingMiddleware(redisClient, "user")],
     controller.getUserById
   );
-  router.post("/", controller.createUser);
+
+  router.get(
+    "/profile",
+    [authMiddleware, redisCachingMiddleware(redisClient, "user")],
+    controller.getCurrentUser
+  );
+
+  router.post("/", [authMiddleware], controller.createUser);
 
   ///
   return router;

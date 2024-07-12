@@ -7,7 +7,7 @@ const authRouter = (redisClient: RedisClientType) => {
   const router = Router();
 
   /// routes
-  router.get("/", controller.login);
+  router.post("/", controller.login);
   ///
   return router;
 };

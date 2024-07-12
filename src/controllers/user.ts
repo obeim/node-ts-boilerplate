@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import userService from "../services/user";
 import { RedisClientType } from "..";
+import { RequestWithDecodedToken } from "../types/express";
 
 const userController = (redisClient: RedisClientType) => {
   const service = userService();
@@ -20,12 +21,26 @@ const userController = (redisClient: RedisClientType) => {
     res.json(user);
   };
 
+  const getCurrentUser = async (req: Request, res: Response) => {
+    const requestDecoded = req as RequestWithDecodedToken;
+    const user = await service.getUserById(requestDecoded.user.id);
+    await redisClient.set(
+      `user_${requestDecoded.user.id}`,
+      JSON.stringify(user),
+      {
+        EX: 30,
+      }
+    );
+
+    res.json(user);
+  };
+
   const createUser = async (req: Request, res: Response) => {
     const user = await service.createUser(req.body);
     res.json(user);
   };
 
-  return { getUserById, createUser, getUsers };
+  return { getUserById, createUser, getUsers, getCurrentUser };
 };
 
 export default userController;
