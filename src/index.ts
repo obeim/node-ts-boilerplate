@@ -26,6 +26,7 @@ app.listen(config.port, () => {
 const redisClient = connection(config).redisClient;
 
 export type RedisClientType = typeof redisClient;
+
 routes(app, redisClient);
 
 app.use(errorHandlingMiddleware);
