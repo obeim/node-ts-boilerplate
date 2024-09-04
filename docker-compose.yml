@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=${PORT:-3000}
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME:-mylocaldb}
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME:-mylocaldb}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  redis_data:
+  postgres_data:
