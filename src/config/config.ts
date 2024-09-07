@@ -15,6 +15,7 @@ const config = {
     uri: process.env.REDIS_URL || "redis://localhost:6379",
   },
   jwtSecret: process.env.JWT_SECRET || "jkl!±@£!@ghj1237",
+  env: process.env.NODE_ENV,
 };
 
 export type Config = typeof config;

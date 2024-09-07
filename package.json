@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run  -d src/db/data-source.ts ",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert  -d src/db/data-source.ts ",
     "build": "tsc"
   },
   "author": "",
