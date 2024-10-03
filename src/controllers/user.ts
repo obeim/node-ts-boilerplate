@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import userService from "../services/user";
 import { RedisClientType } from "..";
 import { RequestWithDecodedToken } from "../types/express";
@@ -40,7 +40,20 @@ const userController = (redisClient: RedisClientType) => {
     res.json(user);
   };
 
-  return { getUserById, createUser, getUsers, getCurrentUser };
+  const deleteUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const user = await service.deleteUser(req.params.id);
+      if (user) res.json({ message: "User removed successfully" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  return { getUserById, createUser, getUsers, getCurrentUser, deleteUser };
 };
 
 export default userController;

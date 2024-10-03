@@ -14,7 +14,7 @@ expressConfig(app);
 
 AppDataSource.initialize()
   .then(async () => {
-    console.log("database");
+    console.log("database connected");
   })
   .catch((error) => console.log(error));
 

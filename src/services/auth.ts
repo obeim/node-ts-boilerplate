@@ -19,7 +19,6 @@ export default function authService() {
         "password",
       ],
     });
-    console.log(user);
 
     const error = new Error("Invalid email or password") as ErrorWithStatus;
 

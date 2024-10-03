@@ -1,9 +1,9 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import authService from "../services/auth";
 import { RedisClientType } from "..";
 
 const authController = (redisClient: RedisClientType) => {
-  const login = async (req: Request, res: Response, next: any) => {
+  const login = async (req: Request, res: Response, next: NextFunction) => {
     const service = authService();
     try {
       const data = await service.login(req.body.email, req.body.password);

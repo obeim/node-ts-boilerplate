@@ -20,6 +20,8 @@ const userRouter = (redisClient: RedisClientType) => {
     controller.getUserById
   );
 
+  router.delete("/:id", [authMiddleware], controller.deleteUser);
+
   router.get(
     "/profile",
     [authMiddleware, redisCachingMiddleware(redisClient, "user")],
