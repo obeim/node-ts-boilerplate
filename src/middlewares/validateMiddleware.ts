@@ -21,7 +21,7 @@ const validateMiddleware = (schema: RequesetSchemaType) => {
         response.params = paramsErrors?.error?.details.map(
           (item) => item.message
         );
-      console.log(_.isEmpty(response), response);
+
       if (_.isEmpty(response)) next();
       else res.status(400).json(response);
     } else next();

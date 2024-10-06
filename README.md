@@ -1,4 +1,3 @@
 ## Todo
 
-- route validation
 - authorization 
