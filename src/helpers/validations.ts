@@ -7,3 +7,14 @@ export const loginSchema: RequesetSchemaType = {
     password: Joi.string().min(6).required(),
   }),
 };
+
+export const createUserSchema: RequesetSchemaType = {
+  body: Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    age: Joi.number().required(),
+    username: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+  }),
+};

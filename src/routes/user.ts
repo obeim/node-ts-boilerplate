@@ -3,6 +3,8 @@ import userController from "../controllers/user";
 import redisCachingMiddleware from "../middlewares/redisCaching";
 import { RedisClientType } from "..";
 import authMiddleware from "../middlewares/authMiddleware";
+import validateMiddleware from "../middlewares/validateMiddleware";
+import { createUserSchema } from "../helpers/validations";
 
 const userRouter = (redisClient: RedisClientType) => {
   const router = Router();
@@ -28,7 +30,11 @@ const userRouter = (redisClient: RedisClientType) => {
     controller.getCurrentUser
   );
 
-  router.post("/", [authMiddleware], controller.createUser);
+  router.post(
+    "/",
+    [authMiddleware, validateMiddleware(createUserSchema)],
+    controller.createUser
+  );
 
   ///
   return router;

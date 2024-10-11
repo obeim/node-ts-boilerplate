@@ -35,9 +35,17 @@ const userController = (redisClient: RedisClientType) => {
     res.json(user);
   };
 
-  const createUser = async (req: Request, res: Response) => {
-    const user = await service.createUser(req.body);
-    res.json(user);
+  const createUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const user = await service.createUser(req.body);
+      res.json(user);
+    } catch (err) {
+      next(err);
+    }
   };
 
   const deleteUser = async (
