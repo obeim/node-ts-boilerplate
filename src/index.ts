@@ -14,7 +14,7 @@ expressConfig(app);
 
 AppDataSource.initialize()
   .then(async (d) => {
-    console.log("database connected");
+    console.log("database connected", d.name);
     d.runMigrations()
       .then((value) => {
         console.log(value);
