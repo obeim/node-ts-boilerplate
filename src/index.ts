@@ -13,8 +13,15 @@ const app = express();
 expressConfig(app);
 
 AppDataSource.initialize()
-  .then(async () => {
+  .then(async (d) => {
     console.log("database connected");
+    d.runMigrations()
+      .then((value) => {
+        console.log(value);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   })
   .catch((error) => console.log(error));
 
