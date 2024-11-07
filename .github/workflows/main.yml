@@ -33,7 +33,7 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
           script: |
-            cd ~/manga-scrapper
+            cd ~/node-ts-boilerplate
             git pull
             git status
             npm install
