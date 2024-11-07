@@ -9,7 +9,7 @@ const config = {
     port: process.env.DB_PORT || "5432",
     user: process.env.DB_USER || "postgres",
     password: process.env.DB_PASSWORD || "123456",
-    name: process.env.DB_NAME || "mylocaldb",
+    name: process.env.DB_NAME || "postgres",
   },
   redis: {
     uri: process.env.REDIS_URL || "redis://localhost:6379",
