@@ -1,6 +1,6 @@
 # Node.js TypeScript API Boilerplate
 
-This is Express REST API boilerplate built with TypeScript, Express, TypeORM, PostgreSQL, and Redis. It includes authentication, user management, caching, validation, error handling, and is fully dockerized for easy deployment.
+Express REST API boilerplate built with TypeScript, Express, TypeORM, PostgreSQL, and Redis. It includes authentication, user management, caching, validation, error handling, and is fully dockerized for easy deployment.
 
 ## Features
 
